@@ -1,10 +1,21 @@
-import './App.css';
+import './Geo_Api.css';
 import {useState} from "react";
 
-function App() {
-
+function Geo_API() {
     const [newItem, setNewItem] = useState("");
     const[tasks, setTasks] = useState([]);
+
+    // const corsHeaders = {
+    //     "Access-Control-Allow-Headers": "*",
+    //     "Access-Control-Allow-Origin": "*",
+    //     "Access-Control-Allow-Method": "GET",
+    // };
+
+    const getCity = () => {
+        const random = Math.floor(Math.random() * 5);
+        const cities = ["Paris", "Nantes", "Marseille", "Pau", "Carcassonne"];
+        return cities[random];
+    };
 
     function addItem(){
 
@@ -20,6 +31,7 @@ function App() {
         setTasks(oldList => [...oldList, item]);
         setNewItem("");
     }
+
 
     function deleteItem(id){
         const newArray = tasks.filter(item => item.id !== id);
@@ -68,5 +80,4 @@ function App() {
         </div>
     );
 }
-
-export default App;
+export default Geo_API;
