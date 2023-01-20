@@ -1,15 +1,4 @@
-import './Geo_Api.css';
-import {useState} from "react";
-
 function Geo_API() {
-    const [newItem, setNewItem] = useState("");
-    const[tasks, setTasks] = useState([]);
-
-    // const corsHeaders = {
-    //     "Access-Control-Allow-Headers": "*",
-    //     "Access-Control-Allow-Origin": "*",
-    //     "Access-Control-Allow-Method": "GET",
-    // };
 
     const getCity = () => {
         const random = Math.floor(Math.random() * 5);
@@ -17,66 +6,38 @@ function Geo_API() {
         return cities[random];
     };
 
-    function addItem(){
+    function App() {
+        const errorCallback = (error) => {
+            console.log(error);
+        };
 
-        if(!newItem){
-            alert("Enter an item");
-            return;
-        }
-        const item = {
-            id: Math.floor(Math.random()*1000),
-            value: newItem
-        }
+        const successCallback = (position) => {
+            const city = getCity();
 
-        setTasks(oldList => [...oldList, item]);
-        setNewItem("");
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.latitude;
+
+            const response = {latitude, longitude, city};
+
+            let element = document.getElementById("responseText");
+            element.innerText = JSON.stringify(response);
+        };
+
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     }
-
-
-    function deleteItem(id){
-        const newArray = tasks.filter(item => item.id !== id);
-        setTasks(newArray);
-    }
-
     return (
         <div className="App">
-            <h1>My ToDo List</h1>
-
-            <p>You have {tasks.length} tasks left to do !</p>
-
-            <input
-                onKeyPress={(e) => {if (e.key === "Enter") {
-                    // Cancel the default action, if needed
-                    e.preventDefault();
-                    // Trigger the button element with a click
-                    document.getElementById("addButton").click();
-                }}}
-                id="myInput"
-                type="text"
-                placeholder="Add a task"
-                value={newItem}
-                onChange={e => setNewItem(e.target.value)}
-            />
+            <h1>Geolocalisation</h1>
 
             <button
-                id="addButton"
+                id="localisationButton"
                 type="submit"
-                onClick={() => addItem()}
-            >Add
+                onClick={() => App()}
+            >Search
             </button>
 
-            <ul>
-                {
-                    tasks.map(item => {
-                    return(
-                        <li key={item.id}>{item.value}
-                            <input type="checkbox"/>
-                            <button type="button" className="delete" onClick={() => deleteItem(item.id)}>🗑️</button>
-                        </li>
-                    )
-                    })
-                }
-            </ul>
+            <div id="responseText"></div>
+
         </div>
     );
 }
