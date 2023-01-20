@@ -3,6 +3,10 @@ import {useState} from "react";
 function Weather_API() {
     const [newItem, setNewItem] = useState("");
 
+    function getTemperature() {
+        return Math.floor(Math.random() * 40);
+    }
+
     function getWeather() {
         const weathers = ["Ensoleillé", "Nuageux", "Venteux", "Pluvieux", "Orageux"];
         const hints = ["Prenez votre chapeau",
@@ -14,11 +18,20 @@ function Weather_API() {
 
 
         const city = newItem;
+        const temperature = getTemperature();
         const weather = weathers[random];
-        const hint =  hints[random];
+        const hint = hints[random];
 
-        const response = {city, weather, hint};
+        if(!city){
+            HTMLResponse("Veuillez entrer un nom valide.");
+        }
+        else{
+            const response = {city, temperature, weather, hint};
+            HTMLResponse(response);
+        }
+    }
 
+    function HTMLResponse(response){
         try{
             let element = document.getElementById("responseText");
             element.innerText = JSON.stringify(response);
