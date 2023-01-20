@@ -7,8 +7,8 @@ import Weather_API from './Weather_API';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/*<Weather_API />*/}
-    <Geo_API />
+    <Weather_API />
+    {/*<Geo_API />*/}
   </React.StrictMode>
 );
 
